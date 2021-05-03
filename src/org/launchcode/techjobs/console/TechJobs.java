@@ -3,6 +3,7 @@ package org.launchcode.techjobs.console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -11,7 +12,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -61,9 +62,10 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+
                 }
             }
         }
@@ -103,14 +105,25 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        //someJobs is being passed in
+        // Print keys and values
+        if (someJobs.isEmpty()) {
+            System.out.println("No results found.");
+        } else {
+            for (HashMap<String, String> i : someJobs) {
+                for (Map.Entry<String, String> jobs : i.entrySet()) {
+                    System.out.println(jobs.getKey()+ ": " + jobs.getValue());
+                }
+                System.out.println("******");
+            } // end for loop
+        } //end if
+    } // close printJobs
+} // close class
 
-        System.out.println("printJobs is not implemented yet");
-    }
-}
